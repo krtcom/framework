@@ -231,10 +231,10 @@ class Mailer implements MailerContract, MailQueueContract
         // its recipients. We will then fire the sent event for the sent message.
         $swiftMessage = $message->getSwiftMessage();
 
-        if ($this->shouldSendMessage($swiftMessage)) {
+        if ($this->shouldSendMessage($swiftMessage, $data)) {
             $this->sendSwiftMessage($swiftMessage);
 
-            $this->dispatchSentEvent($message);
+            $this->dispatchSentEvent($message, $data);
         }
     }
 
@@ -462,16 +462,17 @@ class Mailer implements MailerContract, MailQueueContract
      * Determines if the message can be sent.
      *
      * @param  \Swift_Message  $message
+     * @param  array  $data
      * @return bool
      */
-    protected function shouldSendMessage($message)
+    protected function shouldSendMessage($message, $data = [])
     {
         if (! $this->events) {
             return true;
         }
 
         return $this->events->until(
-            new Events\MessageSending($message)
+            new Events\MessageSending($message, $data)
         ) !== false;
     }
 
@@ -479,13 +480,14 @@ class Mailer implements MailerContract, MailQueueContract
      * Dispatch the message sent event.
      *
      * @param  \Illuminate\Mail\Message  $message
+     * @param  array  $data
      * @return void
      */
-    protected function dispatchSentEvent($message)
+    protected function dispatchSentEvent($message, $data = [])
     {
         if ($this->events) {
             $this->events->dispatch(
-                new Events\MessageSent($message->getSwiftMessage())
+                new Events\MessageSent($message->getSwiftMessage(), $data)
             );
         }
     }

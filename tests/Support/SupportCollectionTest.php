@@ -450,6 +450,18 @@ class SupportCollectionTest extends TestCase
             [],
             $c->where('v', '<', null)->values()->all()
         );
+
+        $c = new Collection([['v' => 1], ['v' => new \Illuminate\Support\HtmlString('hello')]]);
+        $this->assertEquals(
+            [['v' => new \Illuminate\Support\HtmlString('hello')]],
+            $c->where('v', 'hello')->values()->all()
+        );
+
+        $c = new Collection([['v' => 1], ['v' => 'hello']]);
+        $this->assertEquals(
+            [['v' => 'hello']],
+            $c->where('v', new \Illuminate\Support\HtmlString('hello'))->values()->all()
+        );
     }
 
     public function testWhereStrict()
@@ -2295,6 +2307,40 @@ class SupportCollectionTest extends TestCase
         $this->assertSame([['free' => true, 'title' => 'Basic']], $free->values()->toArray());
 
         $this->assertSame([['free' => false, 'title' => 'Premium']], $premium->values()->toArray());
+    }
+
+    public function testPartitionWithOperators()
+    {
+        $collection = new Collection([
+            ['name' => 'Tim', 'age' => 17],
+            ['name' => 'Agatha', 'age' => 62],
+            ['name' => 'Kristina', 'age' => 33],
+            ['name' => 'Tim', 'age' => 41],
+        ]);
+
+        list($tims, $others) = $collection->partition('name', 'Tim');
+
+        $this->assertEquals($tims->values()->all(), [
+            ['name' => 'Tim', 'age' => 17],
+            ['name' => 'Tim', 'age' => 41],
+        ]);
+
+        $this->assertEquals($others->values()->all(), [
+            ['name' => 'Agatha', 'age' => 62],
+            ['name' => 'Kristina', 'age' => 33],
+        ]);
+
+        list($adults, $minors) = $collection->partition('age', '>=', 18);
+
+        $this->assertEquals($adults->values()->all(), [
+            ['name' => 'Agatha', 'age' => 62],
+            ['name' => 'Kristina', 'age' => 33],
+            ['name' => 'Tim', 'age' => 41],
+        ]);
+
+        $this->assertEquals($minors->values()->all(), [
+            ['name' => 'Tim', 'age' => 17],
+        ]);
     }
 
     public function testPartitionPreservesKeys()
