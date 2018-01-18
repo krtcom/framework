@@ -1,5 +1,98 @@
 # Release Notes for 5.5.x
 
+## v5.5.31 (2018-01-16)
+
+### Fixed
+- Reverted [#22804](https://github.com/laravel/framework/pull/22804) ([d8a8368](https://github.com/laravel/framework/commit/d8a8368e15e73de50b91b903f6b933c7d05b0e28), [f34926c](https://github.com/laravel/framework/commit/f34926c52ba282ff67f4be3e9afc8d0ddc885c3f), [#22817](https://github.com/laravel/framework/pull/22817))
+
+
+## v5.5.30 (2018-01-16)
+
+### Changed
+- Accept collection of keys on `Collection::only()` ([#22804](https://github.com/laravel/framework/pull/22804))
+
+### Fixed
+- Reverted [#22649](https://github.com/laravel/framework/pull/22649) ([#22815](https://github.com/laravel/framework/pull/22815))
+- Send status code `500` when using `Collection::dd()` ([#22803](https://github.com/laravel/framework/pull/22803))
+
+
+## v5.5.29 (2018-01-15)
+
+### Added
+- Added `Model::qualifyColumn()` method ([#22577](https://github.com/laravel/framework/pull/22577))
+- Added support for the `author_*` fields to `SlackAttachment` ([#22610](https://github.com/laravel/framework/pull/22610))
+- Added `UrlGenerator::getDefaultParameters()` method  ([#22572](https://github.com/laravel/framework/pull/22572))
+- Added option to double encode escaped strings ([61f8477](https://github.com/laravel/framework/commit/61f8477fab55a258f39a3d598f67f7cc0ffd6aca))
+- Added `BladeCompiler::doubleEncode()` method ([1cc96a1](https://github.com/laravel/framework/commit/1cc96a120955bc0d901f59dff7be1b99133fc7a1))
+- Added support for nested keys to `TestResponse::assertJsonCount()` ([#22740](https://github.com/laravel/framework/pull/22740))
+- Added `s3://` to protocol to URL validation ([#22752](https://github.com/laravel/framework/pull/22752))
+- Added option to disable wrapping migrations in transaction ([#22757](https://github.com/laravel/framework/pull/22757))
+
+### Changed
+- Use `Arr::get()` in `Collection::get()` ([#22554](https://github.com/laravel/framework/pull/22554))
+- Pass entire config to `FtpAdapter` ([#22539](https://github.com/laravel/framework/pull/22539))
+- Support extending Eloquent relationships ([#22617](https://github.com/laravel/framework/pull/22617))
+- Improved handling of `VerifyCsrfToken::$except` values ([#22619](https://github.com/laravel/framework/pull/22619), [#22661](https://github.com/laravel/framework/pull/22661))
+- Support multiple levels in `Collection::groupBy()` ([#22630](https://github.com/laravel/framework/pull/22630))
+- Clear user instance in `RequestGuard::setRequest()` ([#22649](https://github.com/laravel/framework/pull/22649))
+- Allow StudlyCase and snake_case migration names ([#22648](https://github.com/laravel/framework/pull/22648))
+- Set `null` as default value for `optional()` helper ([#22699](https://github.com/laravel/framework/pull/22699))
+- Make sure `getRememberToken()` returns a string ([#22724](https://github.com/laravel/framework/pull/22724))
+- Updated Vue preset version ([#22732](https://github.com/laravel/framework/pull/22732))
+- Accept `Arrayable` items in `Collection::find()` ([#22787](https://github.com/laravel/framework/pull/22787))
+
+### Fixed
+- Close database connection when using `RefreshDatabase` trait ([#22569](https://github.com/laravel/framework/pull/22569))
+- Send status code `500` when using `dd()` ([#22581](https://github.com/laravel/framework/pull/22581))
+- Fixed parameter usage in `RedirectController` ([#22657](https://github.com/laravel/framework/pull/22657))
+- Added `__set_state()` method to `Support/Carbon` ([#22689](https://github.com/laravel/framework/pull/22689))
+- Do not continue checking `APP_ENV` if environment file path being set successfully with `--env` option ([#22753](https://github.com/laravel/framework/pull/22753))
+- Fixed missing table prefix in `SQLiteGrammar::compileDropColumn()` ([#22745](https://github.com/laravel/framework/pull/22745), [c13322c](https://github.com/laravel/framework/commit/c13322c54a20de1417d7bf53e348a601c526bf54))
+- Fixed prefixing in `SQLiteGrammar::compileColumnListing()` ([#22781](https://github.com/laravel/framework/pull/22781))
+
+
+## v5.5.28 (2017-12-26)
+
+### Added
+- Added `AnonymousNotifiable::notifyNow()` method ([#22530](https://github.com/laravel/framework/pull/22530))
+- Added `EventFake::assertDispatchedTimes()` method ([#22528](https://github.com/laravel/framework/pull/22528))
+
+### Changed
+- Check for `--no-interaction` flag on command calls ([#22515](https://github.com/laravel/framework/pull/22515), [ba5e31d](https://github.com/laravel/framework/commit/ba5e31dde341884b3bf03178d1a529abd55e7886))
+
+### Fixed
+- Fix Validator not handling properly inline messages for `size` rules ([#22518](https://github.com/laravel/framework/pull/22518), [690d9fc](https://github.com/laravel/framework/commit/690d9fcc380252806cd19c164af843ccb3e801d9))
+
+
+## v5.5.27 (2017-12-20)
+
+### Added
+- Allow `HtmlString` as line in `MailMessage` ([#22473](https://github.com/laravel/framework/pull/22473))
+- Allow chaining of the `Request::merge()` calls ([#22479](https://github.com/laravel/framework/pull/22479))
+
+### Changed
+- Reverted performance improvements of `Model::getTable()` ([#22478](https://github.com/laravel/framework/pull/22478))
+
+
+## v5.5.26 (2017-12-18)
+
+### Added
+- Support passing collections to `Collection::except()` ([#22399](https://github.com/laravel/framework/pull/22399))
+- Made `Command` class macroable ([#22426](https://github.com/laravel/framework/pull/22426), [#22434](https://github.com/laravel/framework/pull/22434))
+- Added `ProcessUtils` class for command argument escaping ([#22448](https://github.com/laravel/framework/pull/22448))
+- Added array support to `Optional` helper class ([#22417](https://github.com/laravel/framework/pull/22417))
+
+### Changed
+- Added "cattle" as an uncountable word ([#22415](https://github.com/laravel/framework/pull/22415))
+- Added `Dispatcher` contract on `NotificationFake` and return fake object from `Notification::fake()` ([#22396](https://github.com/laravel/framework/pull/22396))
+- Only add value as query binding if it isn't an `Expression` ([#22451](https://github.com/laravel/framework/pull/22451))
+
+### Fixed
+- Fixed database queue transactions wrapped in closures ([#22394](https://github.com/laravel/framework/pull/22394))
+- Fixed an issue with multiple `dont-discover` packages ([#22443](https://github.com/laravel/framework/pull/22443))
+- Fixed incorrect description type in `Console/Parser` ([#22449](https://github.com/laravel/framework/pull/22449))
+
+
 ## v5.5.25 (2017-12-11)
 
 ### Added
